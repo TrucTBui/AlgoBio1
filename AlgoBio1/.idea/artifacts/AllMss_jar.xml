@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="AllMss:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/AllMss_jar</output-path>
+    <root id="archive" name="AllMss.jar">
+      <element id="module-output" name="AlgoBio1" />
+      <element id="module-source" name="AlgoBio1" />
+    </root>
+  </artifact>
+</component>

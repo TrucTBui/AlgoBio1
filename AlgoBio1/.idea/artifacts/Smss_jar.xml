@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Smss:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Smss_jar</output-path>
+    <root id="archive" name="Smss.jar">
+      <element id="module-output" name="AlgoBio1" />
+      <element id="module-source" name="AlgoBio1" />
+    </root>
+  </artifact>
+</component>

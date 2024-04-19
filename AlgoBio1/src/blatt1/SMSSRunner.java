@@ -2,11 +2,11 @@ package blatt1;
 
 import java.util.HashSet;
 
-public class Runner {
+public class SMSSRunner {
     public static void main(String[] args) {
         int[] sequence = {5, -2, 5, -2, 1, -9, 5, -2, 4, -5, 1, -2, 3, -1, 5, -3, 2, -1, 2};
 
-        SMSSOptimal seq = new SMSSOptimal(sequence);
+        MSS seq = new MSS(sequence);
         System.out.print("Eingabe: [");
         for (int i = 0; i < sequence.length; i++) {
             System.out.print(sequence[i]);
@@ -16,7 +16,7 @@ public class Runner {
         }
         System.out.println("]");
         long startTime = System.nanoTime();
-        HashSet<int[]> result = seq.calSMSS();
+        HashSet<int[]> result = seq.calcSMSS();
         long endTime   = System.nanoTime();
         long totalTime = endTime - startTime;
 
