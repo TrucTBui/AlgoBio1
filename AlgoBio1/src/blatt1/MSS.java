@@ -167,7 +167,7 @@ public class MSS {
 
         return allMSS;
     }
-
+/*
     public HashSet<int[]> DivideAndConquerMSS(){
         //TODO
         DCRecurse(0, sequence.length-1);
@@ -208,6 +208,63 @@ public class MSS {
             return maxSum;
         }
     }
+
+
+ */
+    public int[] DCVersion2(int l, int r) {
+        if (l == r) {
+            if (sequence[l] > 0) {
+                return new int[]{l, l, sequence[l]};
+            } else {
+                return new int[]{l, l-1, 0};
+            }
+        } else {
+            int m = (l + r - 1) / 2;
+            int[] leftSum = DCVersion2(l, m);
+            int[] rightSum = DCVersion2(m+1, r);
+            int i = maxCrossIndexLeft(l,m);
+            int j = maxCrossIndexRight(m+1,r);
+            int cross = 0;
+            if (i!= -1 && j != -1) {
+                cross = recursiveSum(i,j);
+            }
+            if (leftSum[2] >= rightSum[2] && leftSum[2] >= cross) {
+                return leftSum;
+            } else if (rightSum[2] >= leftSum[2] && rightSum[2] >= cross) {
+                return rightSum;
+            } else {
+                return new int[]{i, j, cross};
+            }
+        }
+    }
+
+    public int maxCrossIndexLeft(int l, int r) {
+        int max = Integer.MIN_VALUE;
+        int index = -1;
+        for (int i = r; i >= l; i--) {
+            int sum = recursiveSum(i, r);
+            if (sum > max) {
+                max = sum;
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    public int maxCrossIndexRight(int l, int r) {
+        int max = Integer.MIN_VALUE;
+        int index = -1;
+        for (int i = l; i <= r; i++) {
+            int sum = recursiveSum(l, i);
+            if (sum > max) {
+                max = sum;
+                index = i;
+            }
+        }
+        return index;
+    }
+
+
 
     public HashSet<int[]> OptimalMSS(){
         //TODO
