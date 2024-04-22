@@ -81,28 +81,186 @@ public class MSS {
         return smss;
     }
 
+    /**
+     * 5 versions of the MSS algorithm, from the lectures
+     */
     public HashSet<int[]> NaiveMSS(){
-        //TODO
-        return null;
+        //a hashset to store all max scoring subsequences
+        HashSet<int[]> allMSS = new HashSet<>();
+
+        //all variables, defining one subsequence
+        int max = 0;
+        int sum;
+        for(int i = 0; i < sequence.length; i++){
+            for(int j = 1; j < sequence.length; j++){
+                sum = 0;
+
+                for(int k = i; k <= j; k++){
+                    sum += sequence[k];
+                }
+
+                if(sum > max){
+                    allMSS.clear(); //clear the whole HashMap, as there are subsequences with a higher sum
+                    max = sum;
+                    allMSS.add(new int[]{i, j, max});
+                } else if (sum == max){
+                    allMSS.add(new int[]{i, j, max});
+                }
+            }
+        }
+
+        return allMSS;
     }
 
     public HashSet<int[]> NaiveRecursiveMSS(){
-        //TODO
-        return null;
+        //a hashset to store all max scoring subsequences
+        HashSet<int[]> allMSS = new HashSet<>();
+
+        //all variables, defining one subsequence
+        int max = 0;
+
+        int sum;
+        for(int i = 0; i < sequence.length; i++){
+            for(int j = 1; j < sequence.length; j++){
+                sum = 0;
+
+                sum = recursiveSum(i, j);
+
+                if(sum > max){
+                    allMSS.clear(); //clear the whole HashMap, as there are subsequences with a higher sum
+                    max = sum;
+                    allMSS.add(new int[]{i, j, max});
+                } else if (sum == max){
+                    allMSS.add(new int[]{i, j, max});
+                }
+            }
+        }
+
+        return allMSS;
     }
 
     public HashSet<int[]> DynamicProgrammingMSS(){
-        //TODO
-        return null;
+        HashSet<int[]> allMSS = new HashSet<>();
+
+        //build a matrix to save the sums
+        int[][] matrix = new int[sequence.length][sequence.length];
+
+        int max = 0;
+        for(int i = 0; i < sequence.length; i++){
+            for(int j = i; j < sequence.length; j++){
+
+                if(j == 0){
+                    matrix[i][j] = sequence[j];
+                } else {
+                    matrix[i][j] = matrix[i][j-1] + sequence[j];
+                }
+
+                if(matrix[i][j] > max){
+                    allMSS.clear(); //clear the whole HashMap, as there are subsequences with a higher sum
+                    max = matrix[i][j];
+                    allMSS.add(new int[]{i, j, max});
+                } else if(matrix[i][j] == max){
+                    allMSS.add(new int[]{i, j, max});
+                }
+            }
+        }
+
+        return allMSS;
     }
 
     public HashSet<int[]> DivideAndConquerMSS(){
         //TODO
-        return null;
+        DCRecurse(0, sequence.length-1);
+        return allMSSDC;
+    }
+    private int[] DCRecurse(int start, int end){
+        if(start == end){
+            if(this.sequence[start] > 0) return new int[]{start, start, this.sequence[start]};
+            else return new int[]{start, start-1, 0};
+        } else{
+            int[] maxSum;
+
+            //find the middle index for split
+            int middle = ((start+end-1)/2);
+            System.out.println("Middle index: " + middle);
+
+            int[] lowerPartMaxSubsequence = DCRecurse(start, middle);
+            System.out.println("Lower part: ");
+            print(lowerPartMaxSubsequence);
+            int[] higherPartMaxSubsequence = DCRecurse(middle+1, end);
+            System.out.println("Upper part: ");
+            print(higherPartMaxSubsequence);
+
+            int middleStart = returnMaxValue(start, middle);
+            int middleEnd =returnMinValue(middle+1, end);
+            System.out.println("Over the middle part has indexes: " + middleStart + ", " + middleEnd);
+            int middleSum = recursiveSum(middleStart, middleEnd);
+
+            if(Math.max(middleSum, Math.max(lowerPartMaxSubsequence[2], higherPartMaxSubsequence[2])) == middleSum){
+                maxSum = new int[]{middleStart, middleEnd, middleSum};
+            } else if(Math.max(middleSum, Math.max(lowerPartMaxSubsequence[2], higherPartMaxSubsequence[2])) == higherPartMaxSubsequence[0]){
+                maxSum =higherPartMaxSubsequence;
+            } else maxSum = lowerPartMaxSubsequence;
+
+            System.out.println("Adding: " + maxSum[0] + ", " + maxSum[1] + " with value: " + maxSum[2]);
+            allMSSDC.add(maxSum);
+
+            return maxSum;
+        }
     }
 
     public HashSet<int[]> OptimalMSS(){
         //TODO
         return null;
+    }
+
+    private int returnMaxValue(int start, int end){
+        int maxValue = 0;
+        int toRet = 0;
+
+        int sum;
+        for(int i = start; i <= end; i++){
+            for(int j = i; j <= end; j++){
+                sum = recursiveSum(i, j);
+
+                if(sum >= maxValue){
+                    maxValue = sum;
+                    toRet = i;
+                }
+
+            }
+        }
+        return toRet;
+    }
+    private int returnMinValue(int start, int end){
+        int maxValue = 0;
+        int toRet = 0;
+
+        int sum;
+        for(int i = start; i <= end; i++){
+            for(int j = i; j <= end; j++){
+                sum = recursiveSum(i, j);
+
+                if(sum >= maxValue){
+                    maxValue = sum;
+                    toRet = j;
+                }
+
+            }
+        }
+        return toRet;
+    }
+    private int recursiveSum(int start, int end){
+        if(start > end) return 0;
+        else if(start == end) return sequence[start];
+        else return sequence[start] + recursiveSum(start+1, end);
+    }
+    private void print(int[] a){
+        System.out.print("[[");
+        for (Integer i: a){
+            System.out.print(""+i+", ");
+        }
+        System.out.println("]]");
+
     }
 }
