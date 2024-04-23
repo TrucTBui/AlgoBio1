@@ -224,10 +224,7 @@ public class MSS {
             int[] rightSum = DCVersion2(m+1, r);
             int i = maxCrossIndexLeft(l,m);
             int j = maxCrossIndexRight(m+1,r);
-            int cross = 0;
-            if (i!= -1 && j != -1) {
-                cross = recursiveSum(i,j);
-            }
+            int cross = iterativeSum(i,j);
             if (leftSum[2] >= rightSum[2] && leftSum[2] >= cross) {
                 return leftSum;
             } else if (rightSum[2] >= leftSum[2] && rightSum[2] >= cross) {
@@ -239,26 +236,28 @@ public class MSS {
     }
 
     public int maxCrossIndexLeft(int l, int r) {
-        int max = Integer.MIN_VALUE;
-        int index = -1;
-        for (int i = r; i >= l; i--) {
-            int sum = recursiveSum(i, r);
-            if (sum > max) {
-                max = sum;
-                index = i;
+        int maxSum = sequence[r];
+        int sum = maxSum;
+        int index = r;
+        for (int k = r-1; k >= l; k--) {
+            sum += sequence[k];
+            if (sum > maxSum) {
+                maxSum = sum;
+                index = k;
             }
         }
         return index;
     }
 
     public int maxCrossIndexRight(int l, int r) {
-        int max = Integer.MIN_VALUE;
-        int index = -1;
-        for (int i = l; i <= r; i++) {
-            int sum = recursiveSum(l, i);
-            if (sum > max) {
-                max = sum;
-                index = i;
+        int maxSum = sequence[l];
+        int sum = maxSum;
+        int index = l;
+        for (int k = l+1; k <= r; k++) {
+            sum += sequence[k];
+            if (sum > maxSum) {
+                maxSum = sum;
+                index = k;
             }
         }
         return index;
@@ -311,6 +310,14 @@ public class MSS {
         if(start > end) return 0;
         else if(start == end) return sequence[start];
         else return sequence[start] + recursiveSum(start+1, end);
+    }
+
+    private int iterativeSum(int start, int end) {
+        int sum = 0;
+        for (int i = start; i <= end; i++) {
+            sum += sequence[i];
+        }
+        return sum;
     }
     private void print(int[] a){
         System.out.print("[[");
