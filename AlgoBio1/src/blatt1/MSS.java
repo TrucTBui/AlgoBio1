@@ -41,9 +41,43 @@ public class MSS {
         return mss;
     }
 
-    public HashSet<int[]> calcSMSS(){
+    public HashSet<int[]> SMSS(){
         /**
-         * Calculate shortest maximum sum subsequences of the given sequence.
+         * Calculate shortest maximum sum subsequences of the given sequence
+         */
+
+        HashSet<int[]> smss = new HashSet<>();
+        int max = 0;
+        int rmax = 0;
+        int rstart = 0;
+        int lstart = 0;
+
+        for (int i = 0; i < sequence.length; i++) {
+            if (rmax >0) {
+                rmax += sequence[i];
+            }
+            else {
+                rmax = sequence[i];
+                rstart = i;
+            }
+
+            if (rmax > max) {
+                max = rmax;
+                smss.clear();
+                smss.add(new int[]{rstart, i, rmax});
+                lstart = rstart;
+            }
+            else if (rmax == max && lstart != rstart){
+                smss.add(new int[]{rstart, i, rmax});
+                lstart = rstart;
+            }
+        }
+        return smss;
+    }
+
+    public HashSet<int[]> minimalSMSS(){
+        /**
+         * Calculate shortest maximum sum subsequences of the given sequence with minimal length
          */
         HashSet<int[]> smss = new HashSet<>();
         int max = 0;
@@ -143,7 +177,7 @@ public class MSS {
         HashSet<int[]> allMSS = new HashSet<>();
 
         //build a matrix to save the sums
-        int[][] matrix = new int[sequence.length][sequence.length];
+        int[][] matrix = new int[sequence.length][sequence.length]; //default value 0 for all cells
 
         int max = 0;
         for(int i = 0; i < sequence.length; i++){
@@ -321,7 +355,7 @@ public class MSS {
     }
     private void print(int[] a){
         System.out.print("[[");
-        for (Integer i: a){
+        for (int i: a){
             System.out.print(""+i+", ");
         }
         System.out.println("]]");

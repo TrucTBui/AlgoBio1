@@ -2,7 +2,7 @@ package blatt1;
 
 import java.util.HashSet;
 
-public class SMSSRunner {
+public class MinimalSMSSRunner {
     public static void main(String[] args) {
         int[] sequence = {5, -2, 5, -2, 1, -9, 5, -2, 4, -5, 1, -2, 3, -1, 5, -3, 2, -1, 2};
 
@@ -16,7 +16,7 @@ public class SMSSRunner {
         }
         System.out.println("]");
         long startTime = System.nanoTime();
-        HashSet<int[]> result = seq.SMSS();
+        HashSet<int[]> result = seq.minimalSMSS();
         long endTime   = System.nanoTime();
         long totalTime = endTime - startTime;
 
