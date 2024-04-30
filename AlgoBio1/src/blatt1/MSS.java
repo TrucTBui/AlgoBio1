@@ -201,61 +201,24 @@ public class MSS {
 
         return allMSS;
     }
-/*
-    public HashSet<int[]> DivideAndConquerMSS(){
-        //TODO
-        DCRecurse(0, sequence.length-1);
-        return allMSSDC;
-    }
-    private int[] DCRecurse(int start, int end){
-        if(start == end){
-            if(this.sequence[start] > 0) return new int[]{start, start, this.sequence[start]};
-            else return new int[]{start, start-1, 0};
-        } else{
-            int[] maxSum;
 
-            //find the middle index for split
-            int middle = ((start+end-1)/2);
-            System.out.println("Middle index: " + middle);
-
-            int[] lowerPartMaxSubsequence = DCRecurse(start, middle);
-            System.out.println("Lower part: ");
-            print(lowerPartMaxSubsequence);
-            int[] higherPartMaxSubsequence = DCRecurse(middle+1, end);
-            System.out.println("Upper part: ");
-            print(higherPartMaxSubsequence);
-
-            int middleStart = returnMaxValue(start, middle);
-            int middleEnd =returnMinValue(middle+1, end);
-            System.out.println("Over the middle part has indexes: " + middleStart + ", " + middleEnd);
-            int middleSum = recursiveSum(middleStart, middleEnd);
-
-            if(Math.max(middleSum, Math.max(lowerPartMaxSubsequence[2], higherPartMaxSubsequence[2])) == middleSum){
-                maxSum = new int[]{middleStart, middleEnd, middleSum};
-            } else if(Math.max(middleSum, Math.max(lowerPartMaxSubsequence[2], higherPartMaxSubsequence[2])) == higherPartMaxSubsequence[0]){
-                maxSum =higherPartMaxSubsequence;
-            } else maxSum = lowerPartMaxSubsequence;
-
-            System.out.println("Adding: " + maxSum[0] + ", " + maxSum[1] + " with value: " + maxSum[2]);
-            allMSSDC.add(maxSum);
-
-            return maxSum;
-        }
+    public int[] DivideAndConquerMSS(){
+        return DivideAndConquerSunsequence(0, sequence.length-1);
     }
 
-
- */
-    public int[] DCVersion2(int l, int r) {
-        if (l == r) {
+    public int[] DivideAndConquerSunsequence(int l, int r) {
+        if (l == r) { //start und end index are the same
             if (sequence[l] > 0) {
                 return new int[]{l, l, sequence[l]};
             } else {
                 return new int[]{l, l-1, 0};
             }
         } else {
+            //get the middle index, where we split
             int m = (l + r - 1) / 2;
-            int[] leftSum = DCVersion2(l, m);
-            int[] rightSum = DCVersion2(m+1, r);
+
+            int[] leftSum = DivideAndConquerSunsequence(l, m);
+            int[] rightSum = DivideAndConquerSunsequence(m+1, r);
             int i = maxCrossIndexLeft(l,m);
             int j = maxCrossIndexRight(m+1,r);
             int cross = iterativeSum(i,j);
@@ -268,7 +231,6 @@ public class MSS {
             }
         }
     }
-
     public int maxCrossIndexLeft(int l, int r) {
         int maxSum = sequence[r];
         int sum = maxSum;
@@ -282,7 +244,6 @@ public class MSS {
         }
         return index;
     }
-
     public int maxCrossIndexRight(int l, int r) {
         int maxSum = sequence[l];
         int sum = maxSum;
@@ -297,49 +258,29 @@ public class MSS {
         return index;
     }
 
-
-
-    public HashSet<int[]> OptimalMSS(){
-        //TODO
-        return null;
-    }
-
-    private int returnMaxValue(int start, int end){
-        int maxValue = 0;
-        int toRet = 0;
-
-        int sum;
-        for(int i = start; i <= end; i++){
-            for(int j = i; j <= end; j++){
-                sum = recursiveSum(i, j);
-
-                if(sum >= maxValue){
-                    maxValue = sum;
-                    toRet = i;
-                }
-
+    public int[] OptimalMSS(){
+        int maxscore = 0;
+        int l = 1;
+        int r = 0;
+        int rmax = 0;
+        int rstart = 0;
+        int[] toRet = new int[3];
+        for(int i = 0; i < sequence.length; i++){
+            if(rmax > 0) rmax += sequence[i];
+            else{
+                rmax = sequence[i];
+                rstart = i;
+            }
+            if(rmax > maxscore){
+                maxscore = rmax;
+                l = rstart;
+                r = i;
+                toRet = new int[]{l, r, maxscore};
             }
         }
         return toRet;
     }
-    private int returnMinValue(int start, int end){
-        int maxValue = 0;
-        int toRet = 0;
 
-        int sum;
-        for(int i = start; i <= end; i++){
-            for(int j = i; j <= end; j++){
-                sum = recursiveSum(i, j);
-
-                if(sum >= maxValue){
-                    maxValue = sum;
-                    toRet = j;
-                }
-
-            }
-        }
-        return toRet;
-    }
     private int recursiveSum(int start, int end){
         if(start > end) return 0;
         else if(start == end) return sequence[start];
@@ -352,13 +293,5 @@ public class MSS {
             sum += sequence[i];
         }
         return sum;
-    }
-    private void print(int[] a){
-        System.out.print("[[");
-        for (int i: a){
-            System.out.print(""+i+", ");
-        }
-        System.out.println("]]");
-
     }
 }
