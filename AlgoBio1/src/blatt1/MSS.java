@@ -1,4 +1,3 @@
-//Aufgabe 2
 package blatt1;
 
 import java.util.HashSet;
@@ -156,7 +155,6 @@ public class MSS {
         int sum;
         for(int i = 0; i < sequence.length; i++){
             for(int j = 1; j < sequence.length; j++){
-                sum = 0;
 
                 sum = recursiveSum(i, j);
 
