@@ -83,7 +83,7 @@ public class MSS {
         int max = 0;
         int rmax = 0;
         int rstart = 0;
-        int minlength = 0;
+        int minlength = sequence.length;
 
         for (int i = 0; i < sequence.length; i++) {
             if (rmax >0) {

@@ -1,3 +1,5 @@
+package blatt1;
+
 public class AllClassesRunner {
     public static void main(String[] args) {
         System.out.println("Find all MSS:");
@@ -22,6 +24,6 @@ public class AllClassesRunner {
         DCRunner.main(new String[]{});
         System.out.println();
         System.out.println("Find MSS using the optimal algorithm: ");
-        OptimalRunner.main(new String[]{});
+        //OptimalRunner.main(new String[]{});
     }
 }
