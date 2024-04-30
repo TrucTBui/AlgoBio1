@@ -1,3 +1,4 @@
+package blatt1;
 public class OptimalRunner {
     public static void main(String[] args) {
         int[] sequence = {5, -2, 5, -2, 1, -9, 12, -2, 24, -5, 13, -12, 3, -13, 5, -3, 2, -1, 2};

@@ -1,3 +1,4 @@
+package blatt1;
 public class AllClassesRunner {
     public static void main(String[] args) {
         System.out.println("Find all MSS:");

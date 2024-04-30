@@ -1,3 +1,4 @@
+package blatt1;
 import java.util.HashSet;
 
 public class NaiveRunner {
