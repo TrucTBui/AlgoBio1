@@ -1,6 +1,4 @@
-package blatt1;
-
-public class DCRunner {
+public class OptimalRunner {
     public static void main(String[] args) {
         int[] sequence = {5, -2, 5, -2, 1, -9, 12, -2, 24, -5, 13, -12, 3, -13, 5, -3, 2, -1, 2};
 
@@ -14,7 +12,7 @@ public class DCRunner {
         }
         System.out.println("]");
         long startTime = System.nanoTime();
-        int [] result = seq.DivideAndConquerMSS();
+        int [] result = seq.OptimalMSS();
         long endTime   = System.nanoTime();
         long totalTime = endTime - startTime;
 
@@ -25,3 +23,5 @@ public class DCRunner {
         System.out.println("Laufzeit: " + Math.round(totalTime*0.001) + " μs");
     }
 }
+
+

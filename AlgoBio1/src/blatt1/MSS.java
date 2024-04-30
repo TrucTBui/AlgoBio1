@@ -116,7 +116,7 @@ public class MSS {
     }
 
     /**
-     * 5 versions of the MSS algorithm, from the lectures
+     * 5 versions of the MSS algorithm from the lectures
      */
     public HashSet<int[]> NaiveMSS(){
         //a hashset to store all max scoring subsequences
