@@ -201,10 +201,10 @@ public class MSS {
     }
 
     public int[] DivideAndConquerMSS(){
-        return DivideAndConquerSunsequence(0, sequence.length-1);
+        return DivideAndConquerSubsequence(0, sequence.length-1);
     }
 
-    public int[] DivideAndConquerSunsequence(int l, int r) {
+    public int[] DivideAndConquerSubsequence(int l, int r) {
         if (l == r) { //start und end index are the same
             if (sequence[l] > 0) {
                 return new int[]{l, l, sequence[l]};
@@ -215,8 +215,8 @@ public class MSS {
             //get the middle index, where we split
             int m = (l + r - 1) / 2;
 
-            int[] leftSum = DivideAndConquerSunsequence(l, m);
-            int[] rightSum = DivideAndConquerSunsequence(m+1, r);
+            int[] leftSum = DivideAndConquerSubsequence(l, m);
+            int[] rightSum = DivideAndConquerSubsequence(m+1, r);
             int i = maxCrossIndexLeft(l,m);
             int j = maxCrossIndexRight(m+1,r);
             int cross = iterativeSum(i,j);
