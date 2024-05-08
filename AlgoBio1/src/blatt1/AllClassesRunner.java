@@ -4,7 +4,7 @@ public class AllClassesRunner {
     public static void main(String[] args) {
         System.out.println("Find all MSS:");
         AllMSSRunner.main(new String[]{});
-        System.out.println("");
+        System.out.println();
         System.out.println("Find SMSS:");
         SMSSRunner.main(new String[]{});
         System.out.println();
