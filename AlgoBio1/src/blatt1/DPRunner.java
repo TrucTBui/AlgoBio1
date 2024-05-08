@@ -17,7 +17,7 @@ public class DPRunner {
         System.out.println("]");
         long startTime = System.nanoTime();
         HashSet<int[]> result = seq.DynamicProgrammingMSS();
-        long endTime   = System.nanoTime();
+        long endTime = System.nanoTime();
         long totalTime = endTime - startTime;
 
         System.out.print("Ausgabe: ");

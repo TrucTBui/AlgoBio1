@@ -3,7 +3,8 @@ import numpy as np
 import textwrap
 from matplotlib.ticker import MultipleLocator
 
-def graph_computer_compare():  # row: Truc,Antoaneta
+
+def graph_computer_compare():  # row: Truc, Antoaneta
     all_MSS_Truc = np.array([1,2])
     all_MSS_Antoaneta = np.array([170, 54])
 

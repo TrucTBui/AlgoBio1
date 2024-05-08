@@ -122,6 +122,11 @@ public class MSS {
         //a hashset to store all max scoring subsequences
         HashSet<int[]> allMSS = new HashSet<>();
 
+        if(this.sequence.length == 0){
+            allMSS.add(new int[]{-1, -1, 0});
+            return allMSS;
+        }
+
         //all variables, defining one subsequence
         int max = 0;
         int sum;
@@ -150,6 +155,11 @@ public class MSS {
         //a hashset to store all max scoring subsequences
         HashSet<int[]> allMSS = new HashSet<>();
 
+        if(this.sequence.length == 0){
+            allMSS.add(new int[]{-1, -1, 0});
+            return allMSS;
+        }
+
         //all variables, defining one subsequence
         int max = 0;
 
@@ -174,6 +184,10 @@ public class MSS {
 
     public HashSet<int[]> DynamicProgrammingMSS(){
         HashSet<int[]> allMSS = new HashSet<>();
+        if(this.sequence.length == 0){
+            allMSS.add(new int[]{-1, -1, 0});
+            return allMSS;
+        }
 
         //build a matrix to save the sums
         int[][] matrix = new int[sequence.length][sequence.length]; //default value 0 for all cells
@@ -202,6 +216,9 @@ public class MSS {
     }
 
     public int[] DivideAndConquerMSS(){
+        if(this.sequence.length == 0){
+            return new int[]{-1,-1,0};
+        }
         return DivideAndConquerSubsequence(0, sequence.length-1);
     }
 
@@ -258,6 +275,11 @@ public class MSS {
     }
 
     public int[] OptimalMSS(){
+
+        if(this.sequence.length == 0){
+            return new int[]{-1,-1,0};
+        }
+
         int maxscore = 0;
         int l = 1;
         int r = 0;
@@ -293,4 +315,5 @@ public class MSS {
         }
         return sum;
     }
+
 }
