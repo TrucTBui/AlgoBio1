@@ -1,7 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import textwrap
-from matplotlib.ticker import MultipleLocator
 
 
 def graph_computer_compare():  # row: Truc, Antoaneta
@@ -86,7 +85,6 @@ def graph_computer_compare():  # row: Truc, Antoaneta
         ax.text(bar.get_x() + bar.get_width() / 2, value, f'{value}', ha='center', va='bottom', fontsize=14)
 
     ax.tick_params(axis='y', labelsize=16)
-    # ax.yaxis.set_major_locator(MultipleLocator(10))
 
     legend_handles = [plt.Line2D([0], [0], color=colors2[0], lw=6),
                       plt.Line2D([0], [0], color=colors2[1], lw=6)]
@@ -99,7 +97,6 @@ def graph_computer_compare():  # row: Truc, Antoaneta
     plt.savefig('algorithms_comparison.png')
     # plt.show() - for visualisation
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     graph_computer_compare()
 
