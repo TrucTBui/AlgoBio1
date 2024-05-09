@@ -286,6 +286,7 @@ public class MSS {
         int rmax = 0;
         int rstart = 0;
         int[] toRet = new int[3];
+
         for(int i = 0; i < sequence.length; i++){
             if(rmax > 0) rmax += sequence[i];
             else{

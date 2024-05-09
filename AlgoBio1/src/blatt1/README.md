@@ -64,3 +64,20 @@ the array is considered - resulting in a runtime complexity of __Θ__(n).
 The practical time is also the same, as the algorithm does nit need additional memory and the performed operations are simple. 
 
 ## Exercise 2:
+* **All MSS using the optimal solution, including overlaps**  
+This approach uses the optimal algorithm from exercise 1 and also allows overlapping subsequences. It has the same
+theoretical runtime like the optimal __O__(n), as it also uses one for-loop to iterate through the sequence and the
+operations in each iteration are executed in constant time - __O__(1), but here there are additional operations with HashSet, which
+explains the bigger practical time, compared to the fastest MSS algorithm from the previous exercise. 
+---
+* **SMSS**  
+Both algorithms have a theoretical time complexity of __O__(n), where n is the length of the sequence. However, the additional
+condition `(lstart != rstart)` adds a slight overhead as it checks for the uniqueness of the start index in addition
+to the sum, which could slightly affect the practical runtime but not the complexity class. 
+---
+* **SMSS with minimal length**  
+The minimalSMSS method further refines the approach to finding maximum sum subsequences by focusing not only on finding 
+subsequences that achieve the maximum sum but also ensuring that only the subsequences of the minimal possible length are
+captured. The theoretical complexity remains __O__(n), as it still involves a single pass through the array with 
+operations that execute in constant time. However, the conditional logic is slightly more complex due to additional checks
+for length, potentially making this algorithm slightly slower in practical scenarios due to these overheads.   
