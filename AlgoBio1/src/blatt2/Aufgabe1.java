@@ -95,17 +95,6 @@ public class Aufgabe1 {
         }
 
         System.out.println("created " + numEdges + " edges in " + (endTime2 - startTime2) / 1000000 + " ms");
-
-     /*   for (City c : a1.cities.values()) {
-            c.sortEdges();
-            c.removeEdgesWithDistanceGreaterThan(20.24);
-            for (Edge e : c.edges) {
-                System.out.println(e.id1 + " " + e.id2 + " " + e.distance);
-            }
-            break;
-        }
-
-      */
     }
 
     public static class City {
