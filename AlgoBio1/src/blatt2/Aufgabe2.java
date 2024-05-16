@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashSet;
 
+import static blatt2.Aufgabe1.*;
+
 public class Aufgabe2 {
 
     private Aufgabe1 graph;
@@ -22,8 +24,8 @@ public class Aufgabe2 {
 
         for (int id : graph.cities.keySet()) {
             Aufgabe1.City city = graph.cities.get(id);
-            city.sortEdges(); //sort the edges by distance
-            city.removeEdgesWithDistanceGreaterThan(20.24); //remove all edges with distance greater than 20.24
+            sortEdges(city.edges); //sort the edges by distance
+            removeEdgesWithDistanceGreaterThan(city.edges,20.24); //remove all edges with distance greater than 20.24
 
             if (!city.edges.isEmpty()) {
                 toBeVisited.add(id);  //create a set of all cities. DFS will end when this set is empty
@@ -48,7 +50,7 @@ public class Aufgabe2 {
                 //System.out.println("Done");
                 return;
             }
-            int nextID = currentCity.edges.get(i).getId2(); //get the id of the connecting city
+            int nextID = currentCity.edges.get(i).getEndID(); //get the id of the connecting city
             if (toBeVisited.contains(nextID)) {
                 backtracking.append(currentID + "\t" + nextID + "\t" + String.format("%.2f",currentCity.edges.get(i).getDistance()) + "\n");
                 depthFirstSearch(nextID);
@@ -73,9 +75,11 @@ public class Aufgabe2 {
     public static void main(String[] args) {
         Options options = new Options();
         options.addOption("f", "file", true, "input tsv file");
+        options.addOption("o", "output", true, "output tsv file");
         CommandLineParser parser = new BasicParser();
 
         String filename;
+        String outputFilename;
 
         try {
             CommandLine cmd = parser.parse(options, args);
@@ -84,6 +88,13 @@ public class Aufgabe2 {
             }
             else {
                 filename = "src/blatt2/cities.250.tsv";
+            }
+
+            if (cmd.hasOption("o")) {
+                outputFilename = cmd.getOptionValue("o");
+            }
+            else {
+                outputFilename = "src/blatt2/cities.250.bfs.tsv";
             }
         } catch (ParseException e) {
             System.out.println("Error parsing command line arguments");
@@ -95,7 +106,7 @@ public class Aufgabe2 {
         long startTime = System.nanoTime();
         dfs.depthFirstSearch(dfs.firstID);
         long endTime = System.nanoTime();
-        dfs.writeOutput2TSV("src/blatt2/cities.250.bfs.tsv");
+        dfs.writeOutput2TSV(outputFilename);
         System.out.println("traversed graph in " + dfs.step + " steps in " + (endTime - startTime)/1000000 + " ms");
     }
 }

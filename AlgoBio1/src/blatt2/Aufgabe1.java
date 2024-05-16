@@ -8,15 +8,18 @@ import java.util.HashMap;
 import org.apache.commons.cli.*;
 
 public class Aufgabe1 {
-    protected HashMap<Integer,City> cities; //Nodes
+    HashMap<Integer,City> cities; //Nodes
+    ArrayList<Edge> edges; //Edges
 
     public Aufgabe1(String tsvFile) {
         cities = readTSV(tsvFile);
+        edges = new ArrayList<>();
         createEdges();
     }
 
     public Aufgabe1() {
         cities = new HashMap<>();
+        edges = new ArrayList<>();
     }
 
     // readTSV reads a tsv file and returns a hashmap with the cities and its id as key
@@ -36,25 +39,35 @@ public class Aufgabe1 {
             br.close();
         } catch (IOException e) {
             System.out.println("Error reading file " + filename);
+            return null;
         }
         return map;
     }
 
-    public double distance(City city1, City city2) {
+    public static double distance(City city1, City city2) {
         return Math.sqrt(Math.pow(city1.phi - city2.phi, 2) + Math.pow(city1.lambda - city2.lambda, 2));
     }
 
     public void createEdges() {
-        for (int id1 : cities.keySet()) {
-            for (int id2 : cities.keySet()) {
-                if (id1 != id2) {
-                    City city1 = cities.get(id1);
-                    City city2 = cities.get(id2);
-                    double distance = distance(city1, city2);
-                    city1.edges.add(new Edge(id1, id2, distance)); //the first city of the edge is itself
+        for (int startID : cities.keySet()) {
+            for (int endID : cities.keySet()) {
+                if (startID != endID) {
+                    City startCity = cities.get(startID);
+                    City endCity = cities.get(endID);
+                    double distance = distance(startCity, endCity);
+                    startCity.edges.add(new Edge(startID, endID, distance)); //the first city of the edge is itself
+                    edges.add(new Edge(startID, endID, distance)); //add the edge to the list of all edges
                 }
             }
         }
+    }
+
+    public static void sortEdges(ArrayList<Edge> edges) {
+        edges.sort((e1, e2) -> Double.compare(e1.distance, e2.distance));
+    }
+
+    public static void removeEdgesWithDistanceGreaterThan(ArrayList<Edge> edges, double distance) {
+        edges.removeIf(e -> e.distance >= distance);
     }
 
 
@@ -115,29 +128,25 @@ public class Aufgabe1 {
         public int getId() {
             return id;
         }
-
-        public void sortEdges() {
-            edges.sort((e1, e2) -> Double.compare(e1.distance, e2.distance));
-        }
-
-        public void removeEdgesWithDistanceGreaterThan(double distance) {
-            edges.removeIf(e -> e.distance >= distance);
-        }
     }
 
     public static class Edge {
-        private int id1;
-        private int id2;
+        private int startID;
+        private int endID;
         private double distance;
 
-        public Edge(int id1, int id2, double distance) {
-            this.id1 = id1;
-            this.id2 = id2;
+        public Edge(int startID, int id2, double distance) {
+            this.startID = startID;
+            this.endID = id2;
             this.distance = distance;
         }
 
-        public int getId2() {
-            return id2;
+        public int getStartID() {
+            return startID;
+        }
+
+        public int getEndID() {
+            return endID;
         }
         public double getDistance() {
             return distance;
