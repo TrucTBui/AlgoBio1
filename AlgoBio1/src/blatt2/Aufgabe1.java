@@ -9,17 +9,18 @@ import org.apache.commons.cli.*;
 
 public class Aufgabe1 {
     HashMap<Integer,City> cities; //Nodes
-    ArrayList<Edge> edges; //Edges
 
     public Aufgabe1(String tsvFile) {
         cities = readTSV(tsvFile);
-        edges = new ArrayList<>();
         createEdges();
     }
 
     public Aufgabe1() {
         cities = new HashMap<>();
-        edges = new ArrayList<>();
+    }
+
+    public Aufgabe1(HashMap<Integer,City> cities) {
+        this.cities = cities;
     }
 
     // readTSV reads a tsv file and returns a hashmap with the cities and its id as key
@@ -56,7 +57,6 @@ public class Aufgabe1 {
                     City endCity = cities.get(endID);
                     double distance = distance(startCity, endCity);
                     startCity.edges.add(new Edge(startID, endID, distance)); //the first city of the edge is itself
-                    edges.add(new Edge(startID, endID, distance)); //add the edge to the list of all edges
                 }
             }
         }
@@ -123,6 +123,10 @@ public class Aufgabe1 {
             this.phi = phi;
             this.lambda = lambda;
             this.edges = new ArrayList<>();
+        }
+
+        public City cloneCity(){
+            return new City(id, name, phi, lambda);
         }
 
         public int getId() {

@@ -15,7 +15,15 @@ public class Aufgabe2 {
     private int step;
     private StringBuilder backtracking;
 
-    public Aufgabe2(Aufgabe1 graph) {
+    public String getToBeVisited() { //safe way to display without the risk of changing the HashSet
+        StringBuilder sb = new StringBuilder();
+        for (Integer i : toBeVisited) {
+            sb.append(i + " ");
+        }
+        return sb.toString();
+    }
+
+    public Aufgabe2(Aufgabe1 graph, boolean filter) {
         this.graph = graph;
         toBeVisited = new HashSet<>();
         firstID = Integer.MAX_VALUE;
@@ -25,11 +33,12 @@ public class Aufgabe2 {
         for (int id : graph.cities.keySet()) {
             Aufgabe1.City city = graph.cities.get(id);
             sortEdges(city.edges); //sort the edges by distance
-            removeEdgesWithDistanceGreaterThan(city.edges,20.24); //remove all edges with distance greater than 20.24
-
-            if (!city.edges.isEmpty()) {
-                toBeVisited.add(id);  //create a set of all cities. DFS will end when this set is empty
+            if (filter) {  //for the second exercise only
+                removeEdgesWithDistanceGreaterThan(city.edges, 20.24); //remove all edges with distance greater than 20.24
             }
+
+            toBeVisited.add(id);  //create a set of all cities. DFS will end when this set is empty
+
             if (id < firstID) firstID = id; //get the smallest id
         }
     }
@@ -102,7 +111,7 @@ public class Aufgabe2 {
         }
 
         Aufgabe1 graph = new Aufgabe1(filename);
-        Aufgabe2 dfs = new Aufgabe2(graph);
+        Aufgabe2 dfs = new Aufgabe2(graph, true);
         long startTime = System.nanoTime();
         dfs.depthFirstSearch(dfs.firstID);
         long endTime = System.nanoTime();
