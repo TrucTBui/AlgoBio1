@@ -23,6 +23,15 @@ public class Aufgabe2 {
         return sb.toString();
     }
 
+    public void resetToBeVisited() { //only for exercise 3
+        toBeVisited.clear();
+        for (int id : graph.cities.keySet()) {
+            Aufgabe1.City city = graph.cities.get(id);
+            sortEdges(city.edges); //sort the edges by distance
+            toBeVisited.add(id);
+        }
+    }
+
     public Aufgabe2(Aufgabe1 graph, boolean filter) {
         this.graph = graph;
         toBeVisited = new HashSet<>();

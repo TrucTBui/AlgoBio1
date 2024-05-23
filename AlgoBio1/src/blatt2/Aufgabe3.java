@@ -12,6 +12,7 @@ public class Aufgabe3 {
     private Aufgabe1 graph;  //orignal input graph
     private double sumOfEdgeWeights;
     private HashMap<Integer,City> mstCities;
+    private Aufgabe2 dfs;
     private StringBuilder backtracking;
 
     public Aufgabe3(Aufgabe1 graph) {
@@ -22,6 +23,7 @@ public class Aufgabe3 {
             //create a new graph with cities without any edges to initialize the mst
             mstCities.put(c.getId(),c.cloneCity());
         }
+        dfs = new Aufgabe2(new Aufgabe1(mstCities), false);
         backtracking = new StringBuilder();
     }
 
@@ -68,7 +70,7 @@ public class Aufgabe3 {
          */
 
         //TODO eventually: find a smarter way that needs less runtime
-        Aufgabe2 dfs = new Aufgabe2(new Aufgabe1(mstCities),false);
+        dfs.resetToBeVisited();
         dfs.depthFirstSearch(e.getStartID());
 
         String[] remainingCities = dfs.getToBeVisited().split(" ");
