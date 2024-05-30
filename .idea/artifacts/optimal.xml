@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="optimal">
+    <output-path>$PROJECT_DIR$/out/artifacts/optimal</output-path>
+    <root id="archive" name="optimal.jar">
+      <element id="module-output" name="AlgoBio1" />
+      <element id="module-source" name="AlgoBio1" />
+    </root>
+  </artifact>
+</component>

@@ -11,8 +11,8 @@ public class Aufgabe2 {
 
     private Aufgabe1 graph;
     private HashSet<Integer> toBeVisited;
-    private int firstID;
-    private int step;
+    protected int firstID;
+    protected int step;
     private StringBuilder backtracking;
 
     public String getToBeVisited() { //safe way to display without the risk of changing the HashSet
@@ -36,7 +36,7 @@ public class Aufgabe2 {
         this.graph = graph;
         toBeVisited = new HashSet<>();
         firstID = Integer.MAX_VALUE;
-        step =0;
+        step = 0;
         backtracking = new StringBuilder();
 
         for (int id : graph.cities.keySet()) {
@@ -61,7 +61,7 @@ public class Aufgabe2 {
             return; //if all cities have been visited, return
         }
 
-        //begin with the egde with the smallest distance. The edges arraylist is already sorted
+        //begin with the edge with the smallest distance. The edges arraylist is already sorted
         Aufgabe1.City currentCity = graph.cities.get(currentID);
         for (int i = 0; i < currentCity.edges.size(); i++) {
             if (toBeVisited.isEmpty()) {
@@ -105,6 +105,8 @@ public class Aufgabe2 {
                 filename = cmd.getOptionValue("f");
             }
             else {
+                //Antoaneta file path:
+                //filename = "C:/Users/antoa/IdeaProjects/AlgoBio1/AlgoBio1/src/blatt2/cities.250.tsv";
                 filename = "src/blatt2/cities.250.tsv";
             }
 
@@ -112,7 +114,8 @@ public class Aufgabe2 {
                 outputFilename = cmd.getOptionValue("o");
             }
             else {
-                outputFilename = "src/blatt2/cities.250.bfs.tsv";
+                outputFilename = "C:/Users/antoa/IdeaProjects/AlgoBio1/AlgoBio1/src/blatt2/cities.250.bfs.tsv";
+                //outputFilename = "src/blatt2/cities.250.bfs.tsv";
             }
         } catch (ParseException e) {
             System.out.println("Error parsing command line arguments");

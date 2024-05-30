@@ -84,6 +84,8 @@ public class Aufgabe1 {
                 filename = cmd.getOptionValue("f");
             }
             else {
+                //Antoaneta file path:
+                //filename = "C:/Users/antoa/IdeaProjects/AlgoBio1/AlgoBio1/src/blatt2/cities.250.tsv";
                 filename = "src/blatt2/cities.250.tsv";
             }
         } catch (ParseException e) {

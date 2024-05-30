@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="naiv">
+    <output-path>$PROJECT_DIR$/out/artifacts/naiv</output-path>
+    <root id="archive" name="naiv.jar">
+      <element id="module-output" name="AlgoBio1" />
+      <element id="module-source" name="AlgoBio1" />
+    </root>
+  </artifact>
+</component>
