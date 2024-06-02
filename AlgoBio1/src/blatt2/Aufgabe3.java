@@ -73,7 +73,7 @@ public class Aufgabe3 {
                 mstCities.get(e.getStartID()).edges.add(e);
                 mstCities.get(e.getEndID()).edges.add(new Edge(e.getEndID(),e.getStartID(),e.getDistance()));
                 //backtracking
-                backtracking.append(e.getStartID() + "\t" + e.getEndID() + "\n");
+                backtracking.append(e.getStartID() + "\t" + e.getEndID() + "\t" + String.format("%.2f",e.getDistance()) +"\n");
                 //increase sum of the edge weights
                 sumOfEdgeWeights += e.getDistance();
                 mstEdgeSize++;
@@ -91,24 +91,24 @@ public class Aufgabe3 {
      *Another algorithm to check for cycles, which uses the DFS algorithm from Aufgabe2
      * not used, because of big runtime
      */
-    //public boolean isCycle(Edge e) {
-    //    /**
-    //     * Check if adding the edge e to the MST would create a cycle
-    //     * Idea: Run DFS on the current graph. If we can go from startCity to endCity of e, then there has been a connection between them.
-    //     * By adding e we would create a cycle
-    //     */
-//
-    //    dfs.resetToBeVisited();
-    //    dfs.depthFirstSearch(e.getStartID());
-//
-    //    String[] remainingCities = dfs.getToBeVisited().split(" ");
-    //    for (String c: remainingCities) {
-    //        if (c.equals(String.valueOf(e.getEndID()))) {
-    //            return false;
-    //        }
-    //    }
-    //    return true;
-    //}
+    public boolean isCycle_dfs(Edge e) {
+       /**
+         * Check if adding the edge e to the MST would create a cycle
+         * Idea: Run DFS on the current graph. If we can go from startCity to endCity of e, then there has been a connection between them.
+         * By adding e we would create a cycle
+         */
+
+        dfs.resetToBeVisited();
+        dfs.depthFirstSearch(e.getStartID());
+
+        String[] remainingCities = dfs.getToBeVisited().split(" ");
+        for (String c: remainingCities) {
+            if (c.equals(String.valueOf(e.getEndID()))) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     /**
      * Implementation of the Union-Find algorithm to check for loops with much better runtime
@@ -188,8 +188,8 @@ public class Aufgabe3 {
                 outputFilename = cmd.getOptionValue("o");
             }
             else {
-                outputFilename = "C:/Users/antoa/IdeaProjects/AlgoBio1/AlgoBio1/src/blatt2/cities.250.mst.edgelist";
-                //outputFilename = "src/blatt2/cities.250.mst.edgelist";
+                //outputFilename = "C:/Users/antoa/IdeaProjects/AlgoBio1/AlgoBio1/src/blatt2/cities.250.mst.edgelist";
+                outputFilename = "src/blatt2/cities.250.mst.edgelist";
             }
         } catch (ParseException e) {
             System.out.println("Error parsing command line arguments");
