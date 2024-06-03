@@ -3,6 +3,7 @@ package blatt2;
 import org.apache.commons.cli.*;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import static blatt2.Aufgabe1.*;
@@ -14,6 +15,15 @@ public class Aufgabe2 {
     protected int firstID;
     protected int step;
     private StringBuilder backtracking;
+    protected ArrayList<Edge> walk; //for exercise 1 blatt 3
+
+    public int getFirstID(){
+        return firstID;
+    }
+
+    public ArrayList<Edge> getWalk(){
+        return walk;
+    }
 
     public String getToBeVisited() { //safe way to display without the risk of changing the HashSet
         StringBuilder sb = new StringBuilder();
@@ -38,6 +48,7 @@ public class Aufgabe2 {
         firstID = Integer.MAX_VALUE;
         step = 0;
         backtracking = new StringBuilder();
+        walk = new ArrayList<>();
 
         for (int id : graph.cities.keySet()) {
             Aufgabe1.City city = graph.cities.get(id);
@@ -68,9 +79,11 @@ public class Aufgabe2 {
                 //System.out.println("Done");
                 return;
             }
-            int nextID = currentCity.edges.get(i).getEndID(); //get the id of the connecting city
+            Edge e = currentCity.edges.get(i);
+            int nextID = e.getEndID(); //get the id of the connecting city
             if (toBeVisited.contains(nextID)) {
-                backtracking.append(currentID + "\t" + nextID + "\t" + String.format("%.2f",currentCity.edges.get(i).getDistance()) + "\n");
+                walk.add(e);
+                backtracking.append(currentID + "\t" + nextID + "\t" + String.format("%.2f",e.getDistance()) + "\n");
                 depthFirstSearch(nextID);
             }
         }
@@ -114,8 +127,8 @@ public class Aufgabe2 {
                 outputFilename = cmd.getOptionValue("o");
             }
             else {
-                outputFilename = "C:/Users/antoa/IdeaProjects/AlgoBio1/AlgoBio1/src/blatt2/cities.250.bfs.tsv";
-                //outputFilename = "src/blatt2/cities.250.bfs.tsv";
+                //outputFilename = "C:/Users/antoa/IdeaProjects/AlgoBio1/AlgoBio1/src/blatt2/cities.250.bfs.tsv";
+                outputFilename = "src/blatt2/cities.250.bfs.tsv";
             }
         } catch (ParseException e) {
             System.out.println("Error parsing command line arguments");

@@ -70,6 +70,23 @@ public class Aufgabe1 {
         edges.removeIf(e -> e.distance >= distance);
     }
 
+    public HashMap<Integer, City> getCities() {
+        return cities;
+    }
+
+    public void addCity(City c) {
+        if (!hasCity(c.id))  cities.put(c.id, c);
+    }
+
+    public boolean hasCity(int id) {
+        for (Integer i : cities.keySet()) {
+            if (i == id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public static void main(String[] args) {
         Options options = new Options();
@@ -125,6 +142,22 @@ public class Aufgabe1 {
             this.phi = phi;
             this.lambda = lambda;
             this.edges = new ArrayList<>();
+        }
+
+        public City (int id) {
+            this.id = id;
+            this.edges = new ArrayList<>();
+        }
+
+        public void addEdge(Edge e) {
+            for (Edge edge: edges) {
+                if (e.getStartID() == edge.getStartID() || e.getStartID() == edge.getEndID()) {
+                    if (e.getEndID() == edge.getStartID() || e.getEndID() == edge.getEndID()) {
+                        return;
+                    }
+                }
+            }
+            edges.add(e);
         }
 
         public City cloneCity(){
