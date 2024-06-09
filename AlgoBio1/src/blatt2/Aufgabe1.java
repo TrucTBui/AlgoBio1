@@ -12,7 +12,6 @@ public class Aufgabe1 {
 
     public Aufgabe1(String tsvFile) {
         cities = readTSV(tsvFile);
-        createEdges();
     }
 
     public Aufgabe1() {
@@ -72,19 +71,6 @@ public class Aufgabe1 {
 
     public HashMap<Integer, City> getCities() {
         return cities;
-    }
-
-    public void addCity(City c) {
-        if (!hasCity(c.id))  cities.put(c.id, c);
-    }
-
-    public boolean hasCity(int id) {
-        for (Integer i : cities.keySet()) {
-            if (i == id) {
-                return true;
-            }
-        }
-        return false;
     }
 
 

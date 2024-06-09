@@ -136,6 +136,7 @@ public class Aufgabe2 {
         }
 
         Aufgabe1 graph = new Aufgabe1(filename);
+        graph.createEdges();
         Aufgabe2 dfs = new Aufgabe2(graph, true);
         long startTime = System.nanoTime();
         dfs.depthFirstSearch(dfs.firstID);

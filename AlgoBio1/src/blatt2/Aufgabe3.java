@@ -197,6 +197,7 @@ public class Aufgabe3 {
         }
 
         Aufgabe1 a1 = new Aufgabe1(filename);
+        a1.createEdges();
         Aufgabe3 a3 = new Aufgabe3(a1);
         long startTime3 = System.nanoTime();
         a3.kruskal();

@@ -34,6 +34,7 @@ public class Runtime_Comparison_Runner {
 
             //Aufgabe2:
             Aufgabe1 graph = new Aufgabe1(filename);
+            graph.createEdges();
             Aufgabe2 dfs = new Aufgabe2(graph, true);
             long startTime = System.nanoTime();
             dfs.depthFirstSearch(dfs.firstID);
@@ -43,6 +44,7 @@ public class Runtime_Comparison_Runner {
 
             //Aufgabe3:
             Aufgabe1 a1_3 = new Aufgabe1(filename);
+            a1_3.createEdges();
             Aufgabe3 a3 = new Aufgabe3(a1_3);
             long startTime3 = System.nanoTime();
             a3.kruskal();
