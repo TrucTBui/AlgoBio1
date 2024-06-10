@@ -1,6 +1,7 @@
 package blatt2;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,7 +38,11 @@ public class Aufgabe1 {
                 map.put(id, new City(id, name, phi, lambda));
             }
             br.close();
-        } catch (IOException e) {
+        }
+        catch (FileNotFoundException e) {
+            System.err.println("The input graph file path is not correct. Please use the option -f for input graph file");
+        }
+        catch (IOException e) {
             System.out.println("Error reading file " + filename);
             return null;
         }
@@ -175,6 +180,9 @@ public class Aufgabe1 {
         }
         public double getDistance() {
             return distance;
+        }
+        public String toString() {
+            return startID + "\t" + endID + "\t" + String.format("%.2f",distance);
         }
     }
 

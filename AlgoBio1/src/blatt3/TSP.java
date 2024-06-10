@@ -1,27 +1,29 @@
+/**
+ * Solving the traveling salesman problem approximately using the minimal spanning tree
+ */
 package blatt3;
 import blatt2.*;
+import org.apache.commons.cli.*;
+
 import static blatt2.Aufgabe1.*;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public class TSP {
-    Aufgabe1 graph;
+    Aufgabe1 mst;
     Aufgabe2 dfs;
     ArrayList<Edge> TSPWalk;
 
-    public TSP(String inputMST) {
+    public TSP(String inputMST, String inputGraph) {
         TSPWalk = new ArrayList<>();
-        graph = readMST(inputMST);
-        dfs = new Aufgabe2(graph, false);
+        mst = new Aufgabe1(inputGraph);
+        loadEdgesFromMST(mst, inputMST);
+        dfs = new Aufgabe2(mst, false);
     }
 
-    public Aufgabe1 readMST(String filename) {
-        Aufgabe1 graph = new Aufgabe1();
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+    public static void loadEdgesFromMST(Aufgabe1 graph, String inputMST) {
+        try (BufferedReader br = new BufferedReader(new FileReader(inputMST))) {
             String line = br.readLine();
             while (line != null) {
                 String[] fields = line.split("\t");
@@ -29,34 +31,18 @@ public class TSP {
                 int id2 = Integer.parseInt(fields[1]);
                 double distance = Double.parseDouble(fields[2]);
 
-                if (!graph.hasCity(id1)){
-                    City c1 = new City(id1);
-                    c1.addEdge(new Edge(id1, id2, distance));
-                    graph.addCity(c1);
-                }
-                else { //city already in graph, only update edges
-                    graph.getCities().get(id1).addEdge(new Edge(id1, id2, distance));
-                }
-
-                if (!graph.hasCity(id2)){
-                    City c2 = new City(id2);
-                    c2.addEdge(new Edge(id2, id1, distance));
-                    graph.addCity(c2);
-                }
-                else { //city already in graph, only update edges
-                    graph.getCities().get(id2).addEdge(new Edge(id2, id1, distance));
-                }
+                graph.getCities().get(id1).addEdge(new Edge(id1, id2, distance));
+                graph.getCities().get(id2).addEdge(new Edge(id2, id1, distance));
 
                 line = br.readLine();
             }
         }
         catch (FileNotFoundException e) {
-            System.out.println("File not found: " + filename);
+            System.err.println("The input mst file path is not correct. Please use the option -m for the input mst file");
         }
         catch (IOException e) {
             e.printStackTrace();
         }
-        return graph;
     }
 
     public void approximate() {
@@ -64,7 +50,13 @@ public class TSP {
          * Create a round tour from the dfs walk, starting at the city with the smallest id
          * Idea: change every edge, in which the startingCity has already been the start once
          */
+        if (mst.getCities().isEmpty()) {
+            return;
+        }
+
         dfs.depthFirstSearch(dfs.getFirstID()); //dfs can start anywhere so we start at the city with the smallest id
+
+        if (dfs.getWalk().isEmpty()) return;
 
         ArrayList<Integer> startingCities = new ArrayList<>();
         int currentCity = dfs.getFirstID();
@@ -78,23 +70,59 @@ public class TSP {
                 currentCity = to;
             }
             else { //change this edge, because we do not want to go back to that city
-                //TODO: idk how to get the distance since this new edge does not exists in the input edge list
-                TSPWalk.add(new Edge(currentCity,to,0));
+                TSPWalk.add(new Edge(currentCity,to,Aufgabe1.distance(mst.getCities().get(from), mst.getCities().get(to))));
                 currentCity = to;
             }
         }
         //Add the last edge that connects the last and the first cities
-        //TODO: idk how to get the distance since this new edge does not exists in the input edge list
-        TSPWalk.add(new Edge(currentCity,startingCities.get(0),0));
+        TSPWalk.add(new Edge(currentCity,startingCities.get(0),Aufgabe1.distance(mst.getCities().get(startingCities.get(0)), mst.getCities().get(currentCity))));
     }
 
-    public static void main(String[] args) {
-        TSP tour = new TSP("src/blatt3/cities.250.mst.edgelist");
-        tour.approximate();
-        for (Edge e: tour.TSPWalk) {
-            System.out.println(e.getStartID()+"\t"+e.getEndID()+"\t"+e.getDistance());
+    public void writeTSPWalk(String outputFile) {
+        try (FileWriter writer = new FileWriter(outputFile)) {
+            for (Edge e: TSPWalk) {
+                writer.write(e.toString() + "\n");
+            }
+        }
+        catch (IOException e) {
+            System.out.println("Error when writing to " + outputFile + "file");;
         }
     }
 
+    public static void main(String[] args) {
+        Options options = new Options();
+        options.addOption("f", "graph", true, "input tsv graph file");
+        options.addOption("m", "mst", true, "input mst file");
+        CommandLineParser parser = new BasicParser();
+
+        String graph;
+        String mst;
+
+        try {
+            CommandLine cmd = parser.parse(options, args);
+            if (cmd.hasOption("f")) {
+                graph = cmd.getOptionValue("f");
+            }
+            else {
+                graph = "src/blatt2/cities.250.tsv";
+            }
+
+            if (cmd.hasOption("m")) {
+                mst = cmd.getOptionValue("m");
+            }
+            else {
+                mst = "src/blatt3/cities.250.mst.edgelist";
+            }
+        } catch (ParseException e) {
+            System.err.println("Error parsing command line arguments");
+            return;
+        }
+
+        TSP tour = new TSP(mst, graph);
+        tour.approximate();
+        for (Edge e: tour.TSPWalk) {
+            System.out.println(e.toString());
+        }
+    }
 
 }
