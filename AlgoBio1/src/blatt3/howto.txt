@@ -1,0 +1,10 @@
+Unzip:
+    tar zxvf akmaxsat_1.1.tgz
+
+Compile the c files:
+    make
+
+Run the akmaxsat program
+    ./akmaxsat [DIMACS FILE]
+
+

@@ -1,7 +1,5 @@
 package blatt3;
 
-import org.apache.commons.cli.*;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -10,54 +8,14 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class TFNetwork {
-    HashMap<String, Gene> genesMap;
-    HashMap<String, Integer> TFMap;
+    protected HashMap<String, Gene> genesMap;
+    protected HashMap<String, Integer> TFMap;
+    protected HashMap<Integer,String> reversedTFMap; //For the mapping of active TFs (part c)
 
     public TFNetwork() {
         genesMap = new HashMap<>();
         TFMap = new HashMap<>();
-    }
-
-    public static void main(String[] args) {
-        Options options = new Options();
-        options.addOption("r", "regulatory", true, "input regulatory network file");
-        options.addOption("a", "active", true, "input active genes file");
-        CommandLineParser parser = new BasicParser();
-
-        String regulatory;
-        String active;
-
-        try {
-            CommandLine cmd = parser.parse(options, args);
-            if (cmd.hasOption("r")) {
-                regulatory = cmd.getOptionValue("r");
-            }
-            else {
-                regulatory = "src/blatt3/regulatory-network.edgelist.tsv";
-            }
-
-            if (cmd.hasOption("a")) {
-                active = cmd.getOptionValue("a");
-            }
-            else {
-                active = "src/blatt3/active-genes.txt";
-            }
-        } catch (ParseException e) {
-            System.err.println("Error parsing command line arguments");
-            return;
-        }
-
-        TFNetwork network = new TFNetwork();
-        network.readNetwork(regulatory);
-        network.readActiveGenes(active);
-
-        network.make_CNF_SAT();
-        if (!network.genesMap.isEmpty()) {
-            System.out.println("p cnf " + network.TFMap.size() + " " + network.genesMap.size());
-            for (Gene gene : network.genesMap.values()) {
-                System.out.println(gene.SATClause);
-            }
-        }
+        reversedTFMap = new HashMap<>();
     }
 
     public void readNetwork(String filename) {
@@ -74,6 +32,7 @@ public class TFNetwork {
 
                 if (!TFMap.containsKey(TF)) {
                     TFMap.put(TF, counter);
+                    reversedTFMap.put(counter, TF);
                     counter++;
                 }
 
