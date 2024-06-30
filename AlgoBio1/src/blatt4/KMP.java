@@ -2,20 +2,37 @@ package blatt4;
 
 import org.apache.commons.cli.*;
 
-public class NaiveStringMatching {
-    public static int naiveSearching(String t, String p) {
+public class KMP {
+    public static int KnuthMorrisPratt(String t, String p) {
         char[] text = t.toCharArray();
         char[] pattern = p.toCharArray();
-        int i=0,j=0;
-        while (i<= t.length()-p.length()) {
+        int[] border = new int[p.length()+1];
+        computeBorder(border, pattern);
+
+        int i = 0, j = 0;
+        while(i < text.length-pattern.length+1) {
             while (text[i+j] == pattern[j]) {
                 j++;
-                if (j==p.length()) return i;
+                if (j == pattern.length) return i;
+            }
+            i += j-border[j];
+            j = Math.max(0, border[j]);
+        }
+        return -1;
+    }
+
+    public static void computeBorder(int[]border, char[]s) {
+        border[0] = -1;
+        border[1] = 0;
+
+        int i = border[1];
+        for (int j=2; j<=s.length;j++) {
+            while ((i>=0) && (s[i] != s[j-1])) {
+                i = border[i];
             }
             i++;
-            j=0;
+            border[j]=i;
         }
-        return -1; //Pattern not found in text
     }
 
     public static void main(String[] args) {
@@ -24,8 +41,7 @@ public class NaiveStringMatching {
         options.addOption("p", "pattern", true, "input pattern");
         CommandLineParser parser = new BasicParser();
 
-        System.out.println("String Matching with naive algorithm");
-
+        System.out.println("String Matching with KMP algorithm");
         String t;
         String p;
 
@@ -49,7 +65,7 @@ public class NaiveStringMatching {
         System.out.println("Text: " + t);
         System.out.println("Pattern: " + p);
         long startTime = System.nanoTime();
-        int result = naiveSearching(t, p);
+        int result = KnuthMorrisPratt(t, p);
         long endTime = System.nanoTime();
         if (result != -1) {
             System.out.println("Pattern found at index " + result);

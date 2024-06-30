@@ -1,7 +1,7 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="NaiveStringMatching.jar:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/NaiveStringMatching_jar_jar</output-path>
-    <root id="archive" name="NaiveStringMatching.jar">
+  <artifact type="jar" name="KMP:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/KMP_jar</output-path>
+    <root id="archive" name="KMP.jar">
       <element id="module-output" name="AlgoBio1" />
       <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/anaptecs/jeaf/owalibs/org.apache.commons.cli/4.3.1/org.apache.commons.cli-4.3.1.jar" path-in-jar="/" />
       <element id="module-source" name="AlgoBio1" />
